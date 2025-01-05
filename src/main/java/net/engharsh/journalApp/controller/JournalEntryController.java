@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("journal")
+@RequestMapping("/api/journal")
 public class JournalEntryController {
 
     @Autowired
@@ -61,7 +61,7 @@ public class JournalEntryController {
         JournalEntry old = journalEntryService.findById(myId).orElse(null);
         if(old != null){
             old.setTitle(newEntry.getTitle() != null && !newEntry.getTitle().equals("")? newEntry.getTitle(): old.getTitle());
-            old.setContent(newEntry.getContent() != null && !newEntry.equals("")? newEntry.getContent(): old.getContent());
+            old.setContent(newEntry.getContent() != null && !newEntry.getContent().equals("")? newEntry.getContent(): old.getContent());
             journalEntryService.saveEntry(old);
             return new ResponseEntity<>(old, HttpStatus.OK);
         }

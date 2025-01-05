@@ -26,8 +26,13 @@ public class UserController {
     }
 
     @PostMapping
-    public void createUser(@RequestBody User user){
+    public ResponseEntity<?> createUser(@RequestBody User user){
+        try{
         userService.saveEntry(user);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/{userName}")

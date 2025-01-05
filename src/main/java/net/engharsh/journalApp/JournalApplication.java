@@ -19,7 +19,7 @@ public class JournalApplication {
 	}
 
 	@Bean
-	public PlatformTransactionManager example(MongoDatabaseFactory dbFactory){
+	public PlatformTransactionManager transactionManager(MongoDatabaseFactory dbFactory){
 		return new MongoTransactionManager(dbFactory);
 	}
 
