@@ -31,7 +31,7 @@ public class JournalEntryService {
         userService.saveEntry(user);}
         catch (Exception e) {
             System.out.println(e);
-            throw new RuntimeException("error");
+            throw new RuntimeException("error", e);
         }
     }
 
