@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/journal")
+@RequestMapping("/journal")
 public class JournalEntryController {
 
     @Autowired
@@ -22,7 +22,7 @@ public class JournalEntryController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("{userName}")
+    @GetMapping("/{userName}")
     public ResponseEntity<?> getAllJournalEntriesofUser(@PathVariable String userName){
         User user = userService.findByUserName(userName);
         List<JournalEntry> all =  user.getJournalEntries();
@@ -60,8 +60,8 @@ public class JournalEntryController {
     public ResponseEntity<?> updateEntryById(@PathVariable ObjectId myId, @RequestBody JournalEntry newEntry, @PathVariable String userName){
         JournalEntry old = journalEntryService.findById(myId).orElse(null);
         if(old != null){
-            old.setTitle(newEntry.getTitle() != null && !newEntry.getTitle().equals("")? newEntry.getTitle(): old.getTitle());
-            old.setContent(newEntry.getContent() != null && !newEntry.getContent().equals("")? newEntry.getContent(): old.getContent());
+            old.setTitle(!newEntry.getTitle().isEmpty() ? newEntry.getTitle(): old.getTitle());
+            old.setContent(newEntry.getContent() != null && !newEntry.getContent().isEmpty() ? newEntry.getContent(): old.getContent());
             journalEntryService.saveEntry(old);
             return new ResponseEntity<>(old, HttpStatus.OK);
         }
