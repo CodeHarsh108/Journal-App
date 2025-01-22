@@ -20,6 +20,7 @@ public class SpringSecurity {
     @Autowired
     private UserDetailsService userDetailsService;
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http.authorizeHttpRequests(request -> request
@@ -32,12 +33,5 @@ public class SpringSecurity {
                 .build();
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }
-
-    private PasswordEncoder passwordEncoder() {
-    }
 
 }
