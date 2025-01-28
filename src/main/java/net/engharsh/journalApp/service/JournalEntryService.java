@@ -3,6 +3,7 @@ package net.engharsh.journalApp.service;
 import net.engharsh.journalApp.entity.JournalEntry;
 import net.engharsh.journalApp.entity.User;
 import net.engharsh.journalApp.repository.JournalEntryRepository;
+import net.engharsh.journalApp.repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,9 @@ public class JournalEntryService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     @Transactional
@@ -47,14 +51,24 @@ public class JournalEntryService {
         return journalEntryRepository.findById(id);
     }
 
-    public void deleteById(ObjectId id, String userName){
-        User user = userService.findByUserName(userName);
-        user.getJournalEntries().removeIf(x -> x.getId().equals(id));
-        userService.saveNewEntry(user);
-        journalEntryRepository.deleteById(id);
+    @Transactional
+    public boolean deleteById(ObjectId id, String userName){
+        boolean removed = false;
+        try {
+            User user = userService.findByUserName(userName);
+             removed = user.getJournalEntries().removeIf(x -> x.getId().equals(id));
+            if (removed) {
+                userService.saveUser(user);
+                journalEntryRepository.deleteById(id);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new RuntimeException("An error occured while deleting id!", e);
+        }
+        return removed;
     }
 
-    public List<JournalEntry> findByUserName(String userName){
-
+    public User findByUserName(String userName){
+        return userRepository.findByUserName(userName);
     }
 }
