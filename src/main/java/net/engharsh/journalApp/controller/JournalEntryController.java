@@ -6,7 +6,6 @@ import net.engharsh.journalApp.service.JournalEntryService;
 import net.engharsh.journalApp.service.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/journal")
@@ -26,11 +24,15 @@ public class JournalEntryController {
     @Autowired
     private UserService userService;
 
+
+    public String getAuthenticatedUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
+
     @GetMapping
     public ResponseEntity<?> getAllJournalEntriesofUser(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        User user = userService.findByUserName(userName);
+        User user = userService.findByUserName(getAuthenticatedUserName());
         List<JournalEntry> all =  user.getJournalEntries();
         if(all != null && !all.isEmpty()){
             return new ResponseEntity<>(all, HttpStatus.OK);
@@ -40,9 +42,7 @@ public class JournalEntryController {
 
     @GetMapping("id/{myId}")
     public ResponseEntity<?> getJournalEntryById(@PathVariable ObjectId myId){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        User user = userService.findByUserName(userName);
+        User user = userService.findByUserName(getAuthenticatedUserName());
         List<JournalEntry> collect = user.getJournalEntries().stream().filter(x -> x.getId().equals(myId)).toList();
         if(!collect.isEmpty()){
             Optional<JournalEntry> journalEntry =  journalEntryService.findById(myId);
@@ -58,9 +58,7 @@ public class JournalEntryController {
     @PostMapping
     public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry){
         try{
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String userName = authentication.getName();
-            journalEntryService.saveEntry(myEntry, userName);
+            journalEntryService.saveEntry(myEntry, getAuthenticatedUserName());
             return new ResponseEntity<>(myEntry, HttpStatus.CREATED);}
         catch(Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -69,9 +67,7 @@ public class JournalEntryController {
 
     @DeleteMapping("id/{myId}")
     public ResponseEntity<?> deleteEntryById(@PathVariable ObjectId myId){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        boolean removed = journalEntryService.deleteById(myId, userName);
+        boolean removed = journalEntryService.deleteById(myId, getAuthenticatedUserName());
         if(removed){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }else{
@@ -80,9 +76,7 @@ public class JournalEntryController {
 
     @PutMapping("id/{myId}")
     public ResponseEntity<?> updateEntryById(@PathVariable ObjectId myId, @RequestBody JournalEntry newEntry){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        User user = userService.findByUserName(userName);
+        User user = userService.findByUserName(getAuthenticatedUserName());
         List<JournalEntry> collect = user.getJournalEntries().stream().filter(x -> x.getId().equals(myId)).toList();
         if(!collect.isEmpty()){
             Optional<JournalEntry> journalEntry =  journalEntryService.findById(myId);
