@@ -1,5 +1,4 @@
 package net.engharsh.journalApp.service;
-
 import net.engharsh.journalApp.entity.User;
 import net.engharsh.journalApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +7,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+
+
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
+
+
 
     @Autowired
     private UserRepository userRepository;
@@ -20,7 +23,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUserName(username);
         if(user != null){
-
             return org.springframework.security.core.userdetails.User.builder()
                     .username(user.getUserName())
                     .password(user.getPassword())
