@@ -22,11 +22,16 @@ public class UserService {
 
 
 
-    public void saveNewUser(User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("USER"));
+    public void saveNewUser(User user) {
+        if (!user.getPassword().startsWith("$2a$")) {
+            if (user.getPassword().length() < 3) {
+                throw new IllegalArgumentException("Password must be at least 3 characters long.");
+            }
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         userRepository.save(user);
     }
+
 
 
     public void saveAdmin(User user){
