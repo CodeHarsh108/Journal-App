@@ -35,19 +35,23 @@ public class JournalEntryService {
 
     @Transactional
     public void saveEntry(JournalEntry journalEntry, String userName){
-        try{
-        User user = userService.findByUserName(userName);
-        journalEntry.setDate(LocalDateTime.now());
-        JournalEntry saved = journalEntryRepository.save(journalEntry);
+        try {
+            User user = userService.findByUserName(userName);
+            journalEntry.setDate(LocalDateTime.now());
+            JournalEntry saved = journalEntryRepository.save(journalEntry);
+
+            System.out.println("Saved Journal Entry ID: " + saved.getId());
+
             List<JournalEntry> entries = new ArrayList<>(user.getJournalEntries());
             entries.add(saved);
             user.setJournalEntries(entries);
-            userService.saveUser(user);}
-        catch (Exception e) {
-            System.out.println(e);
-            throw new RuntimeException("error", e);
+            userService.saveUser(user);
+        } catch (Exception e) {
+            System.out.println("Error while saving entry: " + e.getMessage());
+            throw new RuntimeException("Error", e);
         }
     }
+
 
 
 
