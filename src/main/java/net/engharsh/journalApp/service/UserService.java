@@ -2,6 +2,8 @@ package net.engharsh.journalApp.service;
 import net.engharsh.journalApp.entity.User;
 import net.engharsh.journalApp.repository.UserRepository;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -16,20 +18,24 @@ public class UserService {
     private UserRepository userRepository;
 
 
+    private static final Logger logger = LoggerFactory.getLogger(JournalEntryService.class);
+
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
 
 
-    public void saveNewUser(User user) {
-        if (!user.getPassword().startsWith("$2a$")) {
-            if (user.getPassword().length() < 3) {
-                throw new IllegalArgumentException("Password must be at least 3 characters long.");
-            }
+    public boolean saveNewUser(User user) {
+        try{
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER"));
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            logger.info("ERROR");
+            return false;
         }
-        userRepository.save(user);
     }
 
 

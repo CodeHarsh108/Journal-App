@@ -1,0 +1,13 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://HarshPatil:HarshPatilMongo@cluster0.oj5ea.mongodb.net/
+      database: journaldb
+      auto-index-creation: true
+  main:
+    allow-circular-references: true
+
+server:
+  port: 8080
+#  servlet:
+#    context-path: /journal
