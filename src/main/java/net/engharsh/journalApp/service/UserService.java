@@ -1,4 +1,6 @@
 package net.engharsh.journalApp.service;
+import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.XSlf4j;
 import net.engharsh.journalApp.entity.User;
 import net.engharsh.journalApp.repository.UserRepository;
 import org.bson.types.ObjectId;
@@ -13,12 +15,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class UserService {
     @Autowired
     private UserRepository userRepository;
 
 
-    private static final Logger logger = LoggerFactory.getLogger(JournalEntryService.class);
 
 
     @Autowired
@@ -33,7 +35,7 @@ public class UserService {
             userRepository.save(user);
             return true;
         } catch (Exception e) {
-            logger.info("ERROR");
+            log.error("error occured for {} : ",user.getUserName(), e);
             return false;
         }
     }
