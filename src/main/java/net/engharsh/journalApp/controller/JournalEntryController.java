@@ -1,4 +1,5 @@
 package net.engharsh.journalApp.controller;
+
 import net.engharsh.journalApp.entity.JournalEntry;
 import net.engharsh.journalApp.entity.User;
 import net.engharsh.journalApp.service.JournalEntryService;
@@ -13,30 +14,20 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-
-
 @RestController
 @RequestMapping("/journal")
 public class JournalEntryController {
 
-
-
     @Autowired
     private JournalEntryService journalEntryService;
 
-
-
     @Autowired
     private UserService userService;
-
-
 
     public String getAuthenticatedUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
     }
-
-
 
     @GetMapping
     public ResponseEntity<?> getAllJournalEntriesofUser(){
@@ -47,8 +38,6 @@ public class JournalEntryController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
-
 
     @GetMapping("id/{myId}")
     public ResponseEntity<?> getJournalEntryById(@PathVariable ObjectId myId){
@@ -63,8 +52,6 @@ public class JournalEntryController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-
-
     @PostMapping
     public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry){
         try{
@@ -75,8 +62,6 @@ public class JournalEntryController {
         }
     }
 
-
-
     @DeleteMapping("id/{myId}")
     public ResponseEntity<?> deleteEntryById(@PathVariable ObjectId myId){
         boolean removed = journalEntryService.deleteById(myId, getAuthenticatedUserName());
@@ -85,8 +70,6 @@ public class JournalEntryController {
         }else{
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
     }
-
-
 
     @PutMapping("id/{myId}")
     public ResponseEntity<?> updateEntryById(@PathVariable ObjectId myId, @RequestBody JournalEntry newEntry){

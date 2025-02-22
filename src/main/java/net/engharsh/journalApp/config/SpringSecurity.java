@@ -1,4 +1,5 @@
 package net.engharsh.journalApp.config;
+
 import net.engharsh.journalApp.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,16 +16,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-
-
 @Configuration
 @EnableWebSecurity
 public class SpringSecurity {
 
-
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -40,8 +37,6 @@ public class SpringSecurity {
 
     }
 
-
-
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
@@ -50,8 +45,6 @@ public class SpringSecurity {
                 .and()
                 .build();
     }
-
-
 
     @Bean
     public PasswordEncoder passwordEncoder(){
