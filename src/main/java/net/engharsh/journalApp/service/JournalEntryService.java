@@ -1,4 +1,5 @@
 package net.engharsh.journalApp.service;
+import lombok.extern.slf4j.Slf4j;
 import net.engharsh.journalApp.entity.JournalEntry;
 import net.engharsh.journalApp.entity.User;
 import net.engharsh.journalApp.repository.JournalEntryRepository;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class JournalEntryService {
 
 
@@ -88,7 +90,7 @@ public class JournalEntryService {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e);
+            log.error("Error", e);
             throw new RuntimeException("An error occured while deleting id!", e);
         }
         return removed;
