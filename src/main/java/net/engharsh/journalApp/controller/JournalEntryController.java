@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/journal")
@@ -30,19 +31,20 @@ public class JournalEntryController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllJournalEntriesofUser(){
+    public ResponseEntity<?> getAllJournalEntriesOfUser() {
         User user = userService.findByUserName(getAuthenticatedUserName());
-        List<JournalEntry> all =  user.getJournalEntries();
-        if(all != null && !all.isEmpty()){
+        List<JournalEntry> all = user.getJournalEntries();
+        if (all != null && !all.isEmpty()) {
             return new ResponseEntity<>(all, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+
     @GetMapping("id/{myId}")
     public ResponseEntity<?> getJournalEntryById(@PathVariable ObjectId myId){
         User user = userService.findByUserName(getAuthenticatedUserName());
-        List<JournalEntry> collect = user.getJournalEntries().stream().filter(x -> x.getId().equals(myId)).toList();
+        List<JournalEntry> collect = user.getJournalEntries().stream().filter(x -> x.getId().equals(myId)).collect(Collectors.toList());
         if(!collect.isEmpty()){
             Optional<JournalEntry> journalEntry =  journalEntryService.findById(myId);
             if(journalEntry.isPresent()){
@@ -74,7 +76,7 @@ public class JournalEntryController {
     @PutMapping("id/{myId}")
     public ResponseEntity<?> updateEntryById(@PathVariable ObjectId myId, @RequestBody JournalEntry newEntry){
         User user = userService.findByUserName(getAuthenticatedUserName());
-        List<JournalEntry> collect = user.getJournalEntries().stream().filter(x -> x.getId().equals(myId)).toList();
+        List<JournalEntry> collect = user.getJournalEntries().stream().filter(x -> x.getId().equals(myId)).collect(Collectors.toList());
         if(!collect.isEmpty()){
             Optional<JournalEntry> journalEntry =  journalEntryService.findById(myId);
             if(journalEntry.isPresent()){
