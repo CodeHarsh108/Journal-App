@@ -15,3 +15,7 @@ logging:
     net:
       engharsh:
         journalApp: DEBUG
+
+weather:
+  api:
+    key: 0d8171171c8c2eb110f4c7c2fab87116
