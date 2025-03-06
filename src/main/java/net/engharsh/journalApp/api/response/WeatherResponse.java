@@ -13,7 +13,7 @@ public class WeatherResponse{
     private Current current;
     @Getter
     @Setter
-    public static class Current{
+    public class Current{
         private int temperature;
         @JsonProperty("weather_description")
         private List<String> weatherDescriptions;

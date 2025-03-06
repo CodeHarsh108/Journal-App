@@ -1,16 +1,28 @@
 package net.engharsh.journalApp.cache;
 
 import jakarta.annotation.PostConstruct;
+import net.engharsh.journalApp.entity.ConfigJournalAppEntity;
+import net.engharsh.journalApp.repository.ConfigJournalAppRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
 public class AppCache {
-    private Map<String, String> appCache;
+    
+    @Autowired
+    private ConfigJournalAppRepository configJournalAppRepository;
+    
+    public Map<String, String> APP_CACHE = new HashMap<>();
 
     @PostConstruct
     public void init(){
-        appCache = null;
+        List<ConfigJournalAppEntity> all = configJournalAppRepository.findAll();
+        for(ConfigJournalAppEntity configJournalAppEntity : all){
+            APP_CACHE.put(configJournalAppEntity.getKey(), configJournalAppEntity.getValue());
+        }
     }
 }

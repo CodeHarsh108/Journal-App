@@ -1,12 +1,11 @@
 package net.engharsh.journalApp.service;
 
 import net.engharsh.journalApp.api.response.WeatherResponse;
+import net.engharsh.journalApp.cache.AppCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,8 +15,7 @@ public class WeatherService {
     private String apiKey;
 
 
-    private static final String API;
-//
+
 //    @Autowired
 //    private RestTemplate restTemplate;
 
@@ -28,9 +26,11 @@ public class WeatherService {
         this.restTemplate = restTemplate;
     }
 
+    @Autowired
+    private AppCache appCache;
+
     public WeatherResponse getWeather(String city){
-//        String finalAPI =  API.replace("CITY", city).replace( "API_KEY", apiKey);
-        String finalAPI = String.format(API, apiKey, city);
+       String finalAPI =  appCache.APP_CACHE.get("weatherapi").replace("<city>", city).replace( "<apikey>", apiKey);
         ResponseEntity<WeatherResponse> response = restTemplate.exchange(finalAPI, HttpMethod.POST, null, WeatherResponse.class);
         WeatherResponse body = response.getBody();
         return body;
