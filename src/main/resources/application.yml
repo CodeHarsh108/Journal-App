@@ -6,11 +6,22 @@ spring:
       auto-index-creation: true
   main:
     allow-circular-references: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: itsharshhh6@gmail.com
+    password: szgn gusy mmew quna
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
   port: 8080
 
 
-#weather:
-#  api:
-#    key: 0d8171171c8c2eb110f4c7c2fab87116
+weather:
+  api:
+    key: 0d8171171c8c2eb110f4c7c2fab87116
