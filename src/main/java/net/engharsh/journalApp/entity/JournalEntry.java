@@ -22,4 +22,5 @@ public class JournalEntry {
 
     private LocalDateTime date = LocalDateTime.now();
 
+    private Sentiment sentiment;
 }
