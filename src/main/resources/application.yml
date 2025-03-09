@@ -1,8 +1,9 @@
 spring:
   redis:
-    host: localhost
-    port: 6379
-  data:
+    host: redis-13302.c8.us-east-1-2.ec2.redns.redis-cloud.com
+    port: 13302
+    password: cbNLVy0fy79M4YrpXnSuLbRjU2jtG5Lw
+    data:
     mongodb:
       uri: mongodb+srv://Harsh:Harsh@cluster0.iziuq.mongodb.net/
       database: journaldb
