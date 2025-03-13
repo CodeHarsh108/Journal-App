@@ -1,5 +1,4 @@
 package net.engharsh.journalApp.config;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -13,8 +12,11 @@ public class RedisConfig {
     public RedisTemplate redisTemplate(RedisConnectionFactory factory){
         RedisTemplate redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(factory);
+
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new StringRedisSerializer());
+
         return redisTemplate;
     }
+
 }

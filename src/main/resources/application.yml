@@ -5,7 +5,7 @@ spring:
     password: cbNLVy0fy79M4YrpXnSuLbRjU2jtG5Lw
     data:
     mongodb:
-      uri: mongodb+srv://Harsh:Harsh@cluster0.iziuq.mongodb.net/
+      uri: mongodb+srv://Harsh:Harsh@cluster0.oj5ea.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
       database: journaldb
       auto-index-creation: true
   main:
@@ -25,6 +25,12 @@ spring:
 server:
   port: 8080
 
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
 
 weather:
   api:

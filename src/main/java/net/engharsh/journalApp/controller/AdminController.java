@@ -1,5 +1,6 @@
 package net.engharsh.journalApp.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import net.engharsh.journalApp.cache.AppCache;
 import net.engharsh.journalApp.entity.User;
 import net.engharsh.journalApp.service.UserService;
@@ -12,6 +13,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
+@Tag(name = "Admin API's", description = "Admin responsibilities")
+
 public class AdminController {
 
     @Autowired
